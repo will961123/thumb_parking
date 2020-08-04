@@ -1,0 +1,159 @@
+import Vue from 'vue'
+import App from '@/App'
+// import QQMapWX from './qqmap-wx-jssdk.js';
+// Vue.prototype.qqmap = new QQMapWX({ 
+// });
+Vue.prototype.isLoad = function() {
+	if (!uni.getStorageSync('token')) {
+		return false
+	} else {
+		return true
+	}
+}
+Vue.prototype.checkLogin = function() {
+	return new Promise((reslove, reject) => {
+		if (uni.getStorageSync('token')) {
+			reslove()
+			console.log('已登录')
+		} else {
+			reject()
+			console.log('未登录')
+			// uni.redirectTo({
+			// 	url: '/pages/login/wxLogin'
+			// })
+		}
+	})
+
+}
+Vue.prototype.getToken = function() {
+	// #ifdef H5
+	return uni.getStorageSync('token') || ''
+	// #endif
+	// #ifndef H5
+	return uni.getStorageSync('token') || ''
+	// #endif
+
+}
+// 请求
+Vue.prototype.request = function(obj) {
+	var header = obj.header || {}
+	let token = uni.getStorageSync("token");
+	if (token) {
+		header['token'] = token
+	}
+	uni.request({
+		url: this.apiUrl + obj.url,
+		method: obj.method || "GET",
+		header: header,
+		data: obj.data || {},
+		success: res => {
+			if (res && res.data && res.data.code === 3) {
+				uni.removeStorageSync('token')
+				uni.removeStorageSync('userInfo')
+				// uni.showToast({
+				// 	title: '登录超时!',
+				// 	icon: 'none',
+				// 	mask: true
+				// })
+				window.location.href = this.redirectUrl
+				// uni.showModal({
+				// 	title: '提示',
+				// 	content: '您的登录信息过期了,请重新登录',
+				// 	showCancel: false,
+				// 	success: res => {
+				// 		window.location.href = this.redirectUrl
+				// 	},
+				// 	fail: (err) => {
+				// 		window.location.href = this.redirectUrl
+				// 	}
+				// })
+				// uni.reLaunch({
+				// 	url: '/pages/index/index'
+				// })
+			}
+			typeof obj.success == "function" && obj.success(res)
+		},
+		fail: res => {
+			typeof obj.fail == "function" && obj.fail(res)
+		}
+	})
+}
+// showToast
+Vue.prototype.showToast = function(title, mask = false) {
+	uni.showToast({
+		title: title,
+		icon: 'none',
+		mask: mask
+	})
+}
+// showLoading
+Vue.prototype.showLoading = function(title = '加载中...', mask = true) {
+	uni.showLoading({
+		title: title,
+		mask: mask
+	})
+}
+// 手机正则
+Vue.prototype.checkPhone = function(phone) {
+	if (!(/^1[3456789]\d{9}$/.test(phone))) {
+		return false;
+	}
+	return true;
+}
+// 阻止实体键返回_跳转
+Vue.prototype.POP = function() {
+	uni.switchTab({
+		url: '/pages/index/index'
+	});
+}
+// 阻止实体键返回_监听
+Vue.prototype.addPOP = function(fn) {
+	if (window.history && window.history.pushState) {
+		console.log('支持监听返回键');
+		history.pushState(null, null, document.URL);
+		window.addEventListener('popstate', fn, false);
+	}
+}
+// 阻止实体键返回_卸载 
+Vue.prototype.removePOP = function(fn) {
+	window.removeEventListener('popstate', fn, false);
+}
+Vue.prototype.getQueryString = function(name) {
+	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(
+		/\+/g, '%20')) || null
+}
+
+
+// Vue.prototype.wx = require('jweixin-module');
+// Vue.prototype.wxSdk = function(obj) {
+// 	var that = this;
+// 	this.request({
+// 		url: '/app/web/support/jsconfig',
+// 		data: {
+// 			url: obj.pageUrl
+// 		},
+// 		success: res => {
+// 			var json = res.data.data;
+// 			// var json = JSON.parse(res.data.obj);
+// 			console.log("服务器获取到的wx配置", json)
+// 			var config = {};
+// 			config.debug = false;
+// 			config.appId = json.appId;
+// 			config.timestamp = json.timesTamp;
+// 			config.nonceStr = json.nonceStr;
+// 			config.signature = json.signature;
+// 			config.jsApiList = [
+// 				'onMenuShareAppMessage', //分享到朋友圈
+// 				'onMenuShareTimeline', //分享 给朋友
+// 			];
+// 			this.wx.config(config);
+// 			console.log('传给wx的配置为:', config)
+// 			this.wx.ready(function() {
+// 				typeof obj.success == "function" && obj.success(res)
+// 			});
+// 		},
+// 		fail: res => {
+// 			alert('获取wx配置失败!')
+// 		}
+// 	});
+// }
