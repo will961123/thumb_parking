@@ -1,6 +1,6 @@
 <template>
 	<view class="queryView">
-		<view class="topBox"><navgater title="查询"></navgater></view>
+		<view class="topBox"><navgater :showBack="false" title="查询"></navgater></view>
 
 		<view class="searvhBox bg-white">
 			<view class="iptBox flex align-center">

@@ -21,6 +21,29 @@
             "path" : "pages/my/myOrder",
             "style" : {}
         }
+        ,{
+            "path" : "pages/my/buyMcard",
+            "style" : {}
+        },{
+            "path" : "pages/my/buyMcardDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/addOrder",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/cardList",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/cardDetail",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/index/paymentDetail",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"selectedColor": "#2EB5B7",

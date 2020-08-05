@@ -23,8 +23,11 @@ export default {
 		query() {
 			if (this.stringNumber.length < 7) {
 				this.showToast('请输入正确的车牌号');
-				return false;
+				// return false;
 			}
+			uni.navigateTo({
+				url:"/pages/index/paymentDetail"
+			})
 		}
 	}
 };

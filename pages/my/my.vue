@@ -1,7 +1,7 @@
 <template>
 	<view class="myView">
 		<view class="topBox text-white"> 
-			<navgater title="个人中心"></navgater>
+			<navgater :showBack="false" title="个人中心"></navgater>
 			<view class="userBox flex align-center">
 				<image src="/static/img1.png" mode="aspectFill"></image>
 				<view class="infoBox flex flex-direction justify-around">
@@ -16,7 +16,7 @@
 				<image src="/static/img3.png" mode="aspectFill"></image>
 				<text>停车月卡</text>
 			</view>
-			<button class="cu-btn btn">购买</button>
+			<button @click="navgater('/pages/my/buyMcard')" class="cu-btn btn">购买</button>
 		</view>
 
 		<view style="padding-left: 43rpx;">
@@ -37,7 +37,7 @@ export default {
 		return {
 			navgaterList: [
 				{ icon: '/static/img4.png', name: '订单', path: '/pages/my/myOrder', w: '28rpx' },
-				{ icon: '/static/img5.png', name: '卡卷', path: '', w: '32rpx' },
+				{ icon: '/static/img5.png', name: '卡卷', path: '/pages/my/cardList', w: '32rpx' },
 				{ icon: '/static/img6.png', name: '车辆', path: '/pages/my/myCar', w: '33rpx' },
 				{ icon: '/static/img7.png', name: '发票', path: '', w: '32rpx' }
 			]
