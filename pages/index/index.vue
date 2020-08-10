@@ -1,6 +1,6 @@
 <template>
 	<view class="indexView">
-		<view class="banner"><image src="../../static/index1.png" mode="aspectFill"></image></view>
+		<view class="banner"><image src="../../static/index1.png" mode="widthFix"></image></view>
 		<view class="placeholder">请输入您的车牌号</view>
 		<plate @listenPlateChange="plateChange" :defaultPlate="plateNumber" />
 		<button @click="query" class="btn cu-btn ">查询停车费</button>
